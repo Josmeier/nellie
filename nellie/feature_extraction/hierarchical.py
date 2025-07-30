@@ -556,7 +556,7 @@ class Voxels:
         #     "lin_vel_rel", "intensity", "structure"
         # ]
 
-        self.features_to_save = self.stats_to_aggregate + ["x", "y", "z"]
+        self.features_to_save = self.stats_to_aggregate + ["x", "y", "z"] + [ "node_labels", "branch_labels", "component_labels"]
 
     def _get_node_info(self, t, frame_coords):
         """
