@@ -335,7 +335,7 @@ class NellieProcessor(QWidget):
         for im_num, im_info in enumerate(self.im_info_list):
             show_info(f"Nellie is running: Segmentation file {im_num + 1}/{len(self.im_info_list)}")
             self.current_im_info = im_info
-            segmenting = Label(im_info=self.current_im_info, viewer=self.viewer)
+            segmenting = Label(im_info=self.current_im_info, viewer=self.viewer, object_min_size=self.nellie.settings.object_min_size.value())
             segmenting.run()
             networking = Network(im_info=self.current_im_info, viewer=self.viewer)
             networking.run()

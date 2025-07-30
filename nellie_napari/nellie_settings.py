@@ -91,6 +91,13 @@ class Settings(QWidget):
         self.skip_vox.setValue(5)
         self.skip_vox.setEnabled(False)
 
+        # Spin box for setting the minimum size of objects to be considered in segmentation
+        self.object_min_size_label = QLabel("Minimum object size (in pixels):")
+        self.object_min_size = QSpinBox()
+        self.object_min_size.setRange(1, 10000)
+        self.object_min_size.setValue(50)
+        self.object_min_size.setEnabled(True)
+
         self.set_ui()
 
         self.initialized = False
@@ -118,8 +125,14 @@ class Settings(QWidget):
         subprocessor_layout2 = QHBoxLayout()
         subprocessor_layout2.addWidget(self.analyze_node_level)
         subprocessor_layout2.addWidget(self.voxel_reassign)
+
+        subprocessor_layout3 = QHBoxLayout()
+        subprocessor_layout3.addWidget(self.object_min_size_label)
+        subprocessor_layout3.addWidget(self.object_min_size)
+
         processor_layout.addLayout(subprocessor_layout1)
         processor_layout.addLayout(subprocessor_layout2)
+        processor_layout.addLayout(subprocessor_layout3)
         processor_group.setLayout(processor_layout)
 
         # Tracking settings

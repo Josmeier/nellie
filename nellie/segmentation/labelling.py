@@ -3,6 +3,8 @@ from nellie import xp, ndi, logger, device_type
 from nellie.im_info.verifier import ImInfo
 from nellie.utils.gpu_functions import otsu_threshold, triangle_threshold
 
+from skimage.morphology import remove_small_objects
+
 
 class Label:
     """
@@ -62,7 +64,8 @@ class Label:
                  num_t=None,
                  threshold=None,
                  snr_cleaning=False, otsu_thresh_intensity=False,
-                 viewer=None):
+                 viewer=None,
+                 object_min_size=None):
         """
         Initializes the Label object with image metadata and segmentation parameters.
 
@@ -88,6 +91,8 @@ class Label:
         self.threshold = threshold
         self.snr_cleaning = snr_cleaning
         self.otsu_thresh_intensity = otsu_thresh_intensity
+
+        self.object_min_size = object_min_size
 
         self.im_memmap = None
         self.frangi_memmap = None
@@ -169,6 +174,9 @@ class Label:
             mask = ndi.binary_opening(mask, structure=xp.ones((2, 2, 2)))
         elif self.im_info.no_z:
             mask = ndi.binary_opening(mask, structure=xp.ones((2, 2)))
+
+        if self.object_min_size is not None:
+            mask = remove_small_objects(mask, min_size=self.object_min_size, connectivity=2)
 
         labels, _ = ndi.label(mask, structure=footprint)
         # remove anything 4 pixels or under using bincounts
