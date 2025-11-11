@@ -602,6 +602,11 @@ class ImInfo:
         file_info : FileInfo
             An instance of the FileInfo class, containing metadata and paths for the image file.
         """
+        if isinstance(file_info, str):
+            file_info_obj = FileInfo(file_info)
+            file_info_obj.find_metadata()
+            file_info_obj.load_metadata()
+            file_info = file_info_obj
         self.file_info = file_info
         self.im_path = file_info.ome_output_path
         if not os.path.exists(self.im_path):
