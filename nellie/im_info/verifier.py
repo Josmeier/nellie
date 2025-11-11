@@ -591,7 +591,7 @@ class ImInfo:
                     return_memmap: bool = False, read_mode: str = 'r+')
         Allocates memory for new image data, saves it to the specified file, and writes updated OME metadata.
     """
-    def __init__(self, file_info: FileInfo):
+    def __init__(self, file_info):
         """
         Initializes the ImInfo object, loading image data and setting up directories for screenshots and graphs.
 
