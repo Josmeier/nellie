@@ -35,51 +35,36 @@ def run(file_info, remove_edges=False, otsu_thresh_intensity=False, threshold=No
 
 
 if __name__ == "__main__":
-    # # Single file run
-    # im_path = r"/Users/austin/test_files/nellie_all_tests/ND Stimulation Parallel 12.nd2"
-    # im_info = run(im_path, remove_edges=False, num_t=5)
+    # # # Single file run
+    # im_path = r"/Users/josefin/PhD/mito/images/251106_acb/deltaacb/withEtBr/deltaacb_1_Etbr_pos0.tif"
+    # im_info = run(im_path, ch=1)#, remove_edges=False, num_t=5)
     # im_info = run(im_path, remove_edges=False, ch=1, dim_sizes={'T': 1, 'Z': 0.1, 'Y': 0.1, 'X': 0.1}, otsu_thresh_intensity=True)
 
     # Directory batch run
-    # import os
-    # top_dirs = [
-    #     r"C:\Users\austin\GitHub\nellie-supplemental\comparisons\simulations\multi_grid\outputs",
-    #     r"C:\Users\austin\GitHub\nellie-supplemental\comparisons\simulations\separation\outputs",
-    #     r"C:\Users\austin\GitHub\nellie-supplemental\comparisons\simulations\px_sizes\outputs",
-    #     ]
-    # ch = 0
-    # num_t = 1
-    # # get all non-folder files
-    # for top_dir in top_dirs:
-    #     all_files = os.listdir(top_dir)
-    #     all_files = [os.path.join(top_dir, file) for file in all_files if not os.path.isdir(os.path.join(top_dir, file))]
-    #     all_files = [file for file in all_files if file.endswith('.tif')]
-    #     for file_num, tif_file in enumerate(all_files):
-    #         # for ch in range(1):
-    #         print(f'Processing file {file_num + 1} of {len(all_files)}, channel {ch + 1} of 1')
-    #         im_info = ImInfo(tif_file, ch=ch)
-    #         if os.path.exists(im_info.pipeline_paths['im_skel_relabelled']):
-    #             print(f'Already exists, skipping.')
-    #             continue
-    #         im_info = run(tif_file, remove_edges=False, ch=ch, num_t=num_t)
-
-    # test_file = '/Users/austin/test_files/nellie_all_tests/yeast_3d_mitochondria.ome.tif'
-    test_file = '/Users/austin/Downloads/26598942-Pos213-t_008-y_1744-x_0329.ome.tif'
-    # test_file = all_paths[1]
-    file_info = FileInfo(test_file)
-    file_info.find_metadata()
-    file_info.load_metadata()
-    # print(f'{file_info.metadata_type=}')
-    # print(f'{file_info.axes=}')
-    # print(f'{file_info.shape=}')
-    # print(f'{file_info.dim_res=}')
-    # print(f'{file_info.good_axes=}')
-    # print(f'{file_info.good_dims=}')
-    # print('\n')
-
-    # file_info.change_axes('TZYX')
-    # print('Axes changed')
-    # print(f'{file_info.axes=}')
+    import os
+    top_dirs = [
+        r"/Users/josefin/PhD/mito/images/251106_acb/deltaacb/withEtBr/",
+        # r"C:\Users\austin\GitHub\nellie-supplemental\comparisons\simulations\separation\outputs",
+        # r"C:\Users\austin\GitHub\nellie-supplemental\comparisons\simulations\px_sizes\outputs",
+        ]
+    ch = 1
+    num_t = 1
+    # get all non-folder files
+    for top_dir in top_dirs:
+        all_files = os.listdir(top_dir)
+        all_files = [os.path.join(top_dir, file) for file in all_files if not os.path.isdir(os.path.join(top_dir, file))]
+        all_files = [file for file in all_files if file.endswith('.tif')]
+        for file_num, tif_file in enumerate(all_files):
+            print(f'Processing file {file_num + 1} of {len(all_files)}, channel {ch + 1} of 1')
+            file_info = FileInfo(tif_file)
+            file_info.find_metadata()
+            file_info.load_metadata()
+            file_info.change_selected_channel(ch)
+            im_info = ImInfo(file_info)
+            if os.path.exists(im_info.pipeline_paths['im_skel_relabelled']):
+                print(f'Already exists, skipping.')
+                continue
+            im_info = run(file_info, remove_edges=False)
     # print(f'{file_info.dim_res=}')
     # print(f'{file_info.good_axes=}')
     # print(f'{file_info.good_dims=}')
@@ -111,4 +96,4 @@ if __name__ == "__main__":
     #
     # # file_info.save_ome_tiff()
     # # im_info = ImInfo(file_info)
-    run(file_info)
+    # run(file_info)
