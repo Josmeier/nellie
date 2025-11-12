@@ -352,13 +352,13 @@ def append_to_array(to_append):
             stats['raw'] = [np.array(stats['raw'])]
         for stat, vals in stats.items():
             vals = np.array(vals)[0]
-            # if len(vals.shape) > 1:
-            #     for i in range(len(vals[0])):
-            #         new_array.append(vals[:, i])
-            #         new_headers.append(f'{feature}_{stat}_{i}')
-            # else:
-            new_array.append(vals)
-            new_headers.append(f'{feature}_{stat}')
+            if len(vals.shape) > 1:
+                for i in range(len(vals[0])):
+                    new_array.append(vals[:, i])
+                    new_headers.append(f'{feature}_{stat}_{i}')
+            else:
+                new_array.append(vals)
+                new_headers.append(f'{feature}_{stat}')
     return new_array, new_headers
 
 
