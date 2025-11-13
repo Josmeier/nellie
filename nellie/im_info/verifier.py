@@ -694,7 +694,7 @@ class ImInfo:
 
     def remove_intermediates(self):
         """
-        Removes intermediate files created during the image processing pipeline, except for CSV files and instance labels
+        Removes intermediate files created during the image processing pipeline, except for CSV files and instance labels.
 
         This method loops through all pipeline paths and deletes files (except .csv files) that were created during
         processing. It also deletes the main image file if it exists.
